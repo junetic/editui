@@ -64,7 +64,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <p className="mt-4 text-lg leading-8 text-muted">{post.meta.description}</p>
       </header>
       <div className="mdx mt-8">
-        <MDXRemote source={post.body} components={mdxComponents} />
+        <MDXRemote source={post.body} components={mdxComponents} options={{ blockJS: false }} />
       </div>
       <RelatedPosts slug={post.meta.slug} />
     </article>
