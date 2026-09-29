@@ -1,6 +1,6 @@
 # Chrome Web Store listing
 
-Publish the zip from `pnpm zip` (`.output/editui-1.0.0-chrome.zip`). Host `store/privacy-policy.md` at a public URL and paste that URL into the privacy-policy field. The store upload itself uses your developer account.
+Publish the zip from `pnpm zip` (`output/editui-1.0.0-chrome.zip`). Host `store/privacy-policy.md` at a public URL and paste that URL into the privacy-policy field. The store upload itself uses your developer account.
 
 ## Dashboard fields
 
@@ -41,6 +41,6 @@ Use `public/icon/128.png` for the store icon. Take at least one 1280×800 screen
 ## Manual pass before upload
 
 1. `pnpm dev`
-2. Load `.output/chrome-mv3` as an unpacked extension.
+2. Load `output/chrome-mv3` as an unpacked extension.
 3. On a localhost app, add 5 edits, open Review, and press Copy all.
 4. Paste into a coding agent and confirm it can name the elements you selected.

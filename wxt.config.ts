@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
+  outDir: 'output',
   modules: ['@wxt-dev/module-react'],
   manifest: {
     name: 'EditUI',

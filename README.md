@@ -7,7 +7,7 @@ pnpm install
 pnpm dev
 ```
 
-Load `.output/chrome-mv3` from `chrome://extensions` as an unpacked extension. Click the toolbar icon, or press Command-Shift-E, to enter Edit Mode.
+Load `output/chrome-mv3` from `chrome://extensions` as an unpacked extension. Click the toolbar icon, or press Command-Shift-E, to enter Edit Mode.
 
 ```bash
 pnpm test

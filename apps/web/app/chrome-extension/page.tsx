@@ -94,7 +94,7 @@ export default function ChromeExtensionPage() {
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6">
             <li>From the repo, run pnpm install and pnpm dev.</li>
             <li>Open chrome://extensions and turn on Developer mode.</li>
-            <li>Load unpacked and choose .output/chrome-mv3.</li>
+            <li>Load unpacked and choose output/chrome-mv3.</li>
             <li>Open your app, click the EditUI icon, and start a review.</li>
           </ol>
         </section>

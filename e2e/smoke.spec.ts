@@ -52,7 +52,7 @@ async function toggleEditing(context: BrowserContext): Promise<void> {
 }
 
 test('removes an edit from the tray', async () => {
-  const extensionPath = path.resolve('.output/chrome-mv3');
+  const extensionPath = path.resolve('output/chrome-mv3');
   const fixtureServer = await serveFixture();
   const context = await chromium.launchPersistentContext('', {
     headless: false,
@@ -94,7 +94,7 @@ test('removes an edit from the tray', async () => {
 });
 
 test('collects a batch and copies a prompt', async () => {
-  const extensionPath = path.resolve('.output/chrome-mv3');
+  const extensionPath = path.resolve('output/chrome-mv3');
   const fixtureServer = await serveFixture();
   const context = await chromium.launchPersistentContext('', {
     headless: false,
@@ -121,6 +121,13 @@ test('collects a batch and copies a prompt', async () => {
 
     await page.locator('#hero-heading').click();
     const prompt = page.locator('[data-editui="prompt-input"]');
+    await prompt.fill('temporary');
+    const card = await page.locator('[data-testid="card-two"]').boundingBox();
+    if (!card) throw new Error('card is not visible');
+    await page.mouse.click(card.x + card.width - 8, card.y + 12);
+    await expect(prompt).toHaveValue('');
+    await expect(page.getByText('Edit this')).toBeVisible();
+    await page.locator('#hero-heading').click();
     await prompt.fill('Make this heading slightly smaller');
     await prompt.press('Enter');
     await expect(page.locator('[data-editui="tray"] h2')).toHaveText('EditUI — 1 edit');

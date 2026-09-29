@@ -43,6 +43,7 @@ export interface EditSession {
   selectedBounds: Bounds[];
   markers: MarkerView[];
   prompt: PromptView | null;
+  promptEpoch: number;
   draft: string;
   edits: Edit[];
   history: SentBatch[];
@@ -77,6 +78,7 @@ export function useEditSession(): EditSession {
   const [hover, setHover] = useState<HoverView | null>(null);
   const [selection, setSelection] = useState<Element[]>([]);
   const [promptOpen, setPromptOpen] = useState(false);
+  const [promptEpoch, setPromptEpoch] = useState(0);
   const [draft, setDraft] = useState('');
   const [activeEditId, setActiveEditId] = useState<string | null>(null);
   const [selectTick, setSelectTick] = useState(0);
@@ -147,10 +149,25 @@ export function useEditSession(): EditSession {
     if (!editingRef.current || event.button !== 0 || isEditUiEvent(event)) return;
     event.preventDefault();
     event.stopPropagation();
-    if (promptOpenRef.current) return;
 
     const target = elementAtPoint(event.clientX, event.clientY);
     if (!target) return;
+
+    if (promptOpenRef.current) {
+      if (event.shiftKey) return;
+      const open = selectionRef.current;
+      if (open.length === 1 && open[0] === target) return;
+      selectionRef.current = [target];
+      setSelection([target]);
+      setActiveEditId(null);
+      setDraft('');
+      setReselectEditId(null);
+      setPromptOpen(true);
+      setPromptEpoch((epoch) => epoch + 1);
+      setHover(null);
+      return;
+    }
+
     const current = selectionRef.current;
 
     if (event.shiftKey) {
@@ -462,6 +479,7 @@ export function useEditSession(): EditSession {
     selectedBounds,
     markers: editing ? markers : [],
     prompt: editing ? prompt : null,
+    promptEpoch,
     draft,
     edits,
     history,

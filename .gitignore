@@ -3,7 +3,7 @@ node_modules
 *.tsbuildinfo
 apps/web/.next
 apps/web/out
-.output
+output
 stats.html
 stats-*.json
 .wxt

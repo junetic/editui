@@ -31,6 +31,7 @@ export function App() {
       <Markers markers={session.markers} onOpen={session.selectEdit} />
       {session.prompt ? (
         <PromptPopover
+          key={session.promptEpoch}
           title={session.prompt.title}
           placeholder={session.prompt.placeholder}
           value={session.draft}
