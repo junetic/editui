@@ -1,0 +1,44 @@
+---
+title: "Cursor Design Mode: How It Works"
+description: "What Cursor Design Mode does in the Agents Window browser, and when a Chrome review is a different tool for the same kind of UI prompt."
+slug: "cursor-design-mode-guide"
+published: "2026-09-29"
+updated: "2026-09-29"
+---
+
+Cursor Design Mode is a way to point at your running interface and prompt Cursor’s agent with that point, instead of describing the element in a sentence. It lives in the browser inside the Agents Window, not in the main code editor.
+
+## Open it
+
+Cursor’s own docs describe the path:
+
+1. Open the browser in the Agents Window. File, then New Browser, is one way there.
+2. Load the running app. A local dev server is the usual target.
+3. Toggle Design Mode from the browser toolbar, or with Command-Shift-D (Ctrl-Shift-D on Windows and Linux).
+
+The control stays hidden until the page has loaded. If you are looking at the editor instead of that browser, Design Mode is not on screen.
+
+## What you can point at
+
+From the [Cursor Design Mode documentation](https://cursor.com/docs/agent/design-mode), you can:
+
+- Click an element so the agent receives that element and the code behind it.
+- Select more than one reference when the change is about a relationship, such as making one card match another.
+- Draw on the page. The mark sits on a frozen frame, which helps when the region is crowded or moving.
+- Describe the change by voice, including while another agent run is still going.
+
+Under the hood, Cursor says a picked element contributes two signals: identity (xpath, component, attributes, computed styles, and props from the React fiber tree) and a screenshot of the page state. Identity helps it find the source. The screenshot carries the layout.
+
+Design Mode is built so you can send an edit and move on to the next one before the first agent finishes. The app hot-reloads as those runs complete.
+
+## What it is good at
+
+Use it when you are already in Cursor and the page is open in Cursor’s browser. The agent can see the component, not only the DOM, and it can edit the repo without a copy-paste step. Drawing and voice are part of that product. EditUI does not do either.
+
+## When the review is happening in Chrome
+
+Sometimes the page you care about is already open in normal Chrome: a production-like localhost tab, a viewport you sized by hand, or a pass you want to finish before any agent starts. [EditUI](/cursor) is that pass. You click elements, collect the notes, and copy one prompt. You can paste it into Cursor, or into a different agent.
+
+It does not read the fiber tree and it does not attach a screenshot. The trade is a batch you control, in the browser you were already using, for whichever coding agent you paste into.
+
+<ChromeCTA location="post-cursor-design-mode-guide" />

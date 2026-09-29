@@ -1,0 +1,45 @@
+---
+title: "How to Give Coding Agents Better Visual Context"
+description: "What an agent needs in order to edit the element you see: identity, surrounding markup, layout styles, viewport, and a clear instruction."
+slug: "visual-context-coding-agents"
+published: "2026-09-29"
+updated: "2026-09-29"
+---
+
+Coding agents edit source. You judge the result in a browser. Visual context is the information that connects those two: which node you meant, how it sits on the page, and what should change.
+
+Without it, the agent searches. It greps for a string that appears twice, edits the wrong one, and you spend the next turn saying “not that button.”
+
+## The minimum useful packet
+
+For a single UI change, the packet that usually works is:
+
+1. **Where.** The URL, including the path, and the viewport size. A layout bug at 390px is not a layout bug at 1440px.
+2. **Which node.** Tag, visible text, id or class if they are stable, and a scrap of parent and sibling markup so a repeated component can be told apart.
+3. **How it is laid out.** A few computed styles: display, font size, padding, gap, flex or grid alignment. Not the entire CSSOM.
+4. **What you want.** One sentence. The context says which element. The sentence says the intent.
+
+EditUI builds 1–3 when you click, and you write 4. Copy all joins them into one prompt. The details of that capture are on the [Chrome extension](/chrome-extension) page.
+
+## What this packet does not include
+
+Some tools also send a screenshot, or the React fiber and props for the component that rendered the node. Cursor Design Mode does both, inside Cursor’s browser. That extra identity helps when the DOM and the source have drifted apart.
+
+EditUI does not take a screenshot and does not read component props. It sends the DOM context and your words. That is enough for a lot of polish — type size, alignment, emphasis, spacing — and it stays on your machine until you paste it. If a change depends on an image of the whole page, attach that screenshot yourself in the agent chat.
+
+## How to write the instruction
+
+Point first, then talk. The click already answers “which one,” so the sentence can be short.
+
+Better: “Make these equal height.”
+Weaker: “In the features section there are some cards and I think the middle one is taller so can you look at the grid.”
+
+Name a constraint when you have one. “Keep the label. Only change the visual weight.” Say nothing about implementation unless you care about the implementation.
+
+## Several nodes, one packet
+
+If the review has five notes, send five notes in one prompt. Each note keeps its own element context. The agent can see that they belong to the same URL and the same viewport, which is the difference between a page review and five unrelated tasks.
+
+<ChromeCTA location="post-visual-context-coding-agents" />
+
+If you want the Claude Code version of this loop, start with [click an element and send it](/blog/click-element-send-claude-code).

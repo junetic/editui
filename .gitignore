@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+*.tsbuildinfo
+apps/web/.next
+apps/web/out
+.output
+stats.html
+stats-*.json
+.wxt
+web-ext.config.ts
+test-results
+playwright-report
+blob-report
+*.log
+.DS_Store

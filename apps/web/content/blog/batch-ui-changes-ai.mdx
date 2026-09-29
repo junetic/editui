@@ -1,0 +1,46 @@
+---
+title: "How to Batch UI Changes with AI Coding Agents"
+description: "Collect a page’s UI notes first, then send one review to your coding agent instead of a prompt per issue."
+slug: "batch-ui-changes-ai"
+published: "2026-09-29"
+updated: "2026-09-29"
+---
+
+A UI review is a walk, not a queue of tickets. You notice the hero is tall, the cards don’t line up, a button is shouting, the spacing jumps, and the mobile stack is wrong. If each notice becomes its own agent prompt, you stop reviewing and start supervising.
+
+Batch the notes. Send them once.
+
+## Why one prompt per tweak fails
+
+Each prompt costs the context of the page. The agent re-reads the layout, you re-read the diff, and the second change fights the first. Spacing that looked tight after edit one looks empty after edit four. You also lose the thread of the review: the original pass was about hierarchy, and the chat became about individual CSS properties.
+
+A batch keeps the hierarchy. The agent sees that the button should quiet down *and* the heading should get smaller, so it does not “fix” one by inflating the other.
+
+## Walk the page once
+
+Open the running UI. Move through it in the order a visitor does.
+
+<EditExample
+  edits={[
+    { n: "1", text: "Reduce hero height" },
+    { n: "2", text: "Align these cards" },
+    { n: "3", text: "Make this CTA secondary" },
+    { n: "4", text: "Tighten this spacing" },
+    { n: "5", text: "Stack these on mobile" },
+  ]}
+  action="Send 5 edits →"
+/>
+
+Write the outcome on each element. “Tighten this spacing” is enough if the click identifies the region. Add a number only when you already know it: “padding looks like 24, try 16.”
+
+With [EditUI](/batch-ui-edits), those notes stay on the page until you press Copy all. The clipboard gets one prompt with every edit, the URL, the viewport, and the DOM context for each target.
+
+## Let the agent implement the set
+
+Paste the batch into Claude Code, Cursor, Codex, or whichever agent has the repo. Ask it to implement the list and then check the page against each note. One pass is the point. If the reload misses two items, send those two again, not the original five.
+
+## What belongs in the batch
+
+Include visual decisions you can verify by looking: size, alignment, weight, order, stacking, density. Leave out product changes that need a spec, such as new data or a different flow. A batch works when every item can be judged on the same URL after one reload.
+
+<ChromeCTA location="post-batch-ui-changes-ai" />

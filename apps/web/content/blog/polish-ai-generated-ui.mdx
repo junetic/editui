@@ -1,0 +1,39 @@
+---
+title: "How to Polish the Last 10% of AI-Generated UI"
+description: "The structure is usually fine. The last pass is hierarchy, spacing, and emphasis — collected on the running page, then sent as one review."
+slug: "polish-ai-generated-ui"
+published: "2026-09-29"
+updated: "2026-09-29"
+---
+
+The first generation of a page often gets the sections right. Hero, proof, features, a button. The last 10% is why it still looks generated: type that is one step too large, cards with uneven content and uneven boxes, a primary button on every idea, spacing that never settles, and a mobile layout that is just the desktop layout stacked by accident.
+
+Another full generation rarely fixes that. It redraws the page and introduces a new set of almosts. Polish is a review of the page you have.
+
+## Look at the running UI
+
+Open the dev server in a normal browser window, at the width you care about. Scroll the way a visitor scrolls. Do not start in the component file. The file will tempt you to rename things. The screen will tell you what feels wrong.
+
+Typical notes from that pass:
+
+- The heading is doing too much work. Make it slightly smaller.
+- These cards should share a height, even when the copy differs.
+- One button is the action. The others should look secondary.
+- The gap under the hero is a blank band. Tighten it.
+- On a narrow window, this row should stack, and the order should still make sense.
+
+## Write the note next to the element
+
+“Fix spacing” sent into a chat becomes a guess about which spacing. Click the region, then write the sentence. A [visual editing pass](/visual-ui-editor) is just that pairing, repeated.
+
+Keep the notes until you have walked the whole page. The last 10% is a batch. Sending it as one review lets the agent treat hierarchy as a single problem instead of five local patches. The [batch UI edits](/batch-ui-edits) page is the short version of that idea.
+
+## Judge the reload against the list
+
+After the agent edits the code and the page reloads, read your notes again on the same URL. Check off the ones that landed. Re-prompt only the ones that didn’t. If a change made a neighboring element worse, that neighbor is a new note, not a reason to regenerate the page.
+
+## What this pass is not
+
+It will not invent a better product. It will not choose your typeface for you if you have no opinion. It will take the opinions you already have when you look at the screen — too tall, too loud, uneven, loose — and give your coding agent something specific to implement.
+
+<ChromeCTA location="post-polish-ai-generated-ui" />

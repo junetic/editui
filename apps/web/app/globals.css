@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #14161c;
+  --color-muted: #5e6472;
+  --color-line: #e3e2dc;
+  --color-paper: #f6f5f1;
+  --color-card: #fffcf8;
+  --color-accent: #2563eb;
+  --color-accent-soft: #eaf1ff;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-feature-settings: "ss01" on;
+}
+
+::selection {
+  background: #dbe6ff;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.mdx h2 {
+  margin-top: 2.75rem;
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+  font-weight: 560;
+  line-height: 1.25;
+}
+
+.mdx h3 {
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.mdx p,
+.mdx ul,
+.mdx ol {
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.mdx ul,
+.mdx ol {
+  padding-left: 1.2rem;
+}
+
+.mdx ul {
+  list-style: disc;
+}
+
+.mdx ol {
+  list-style: decimal;
+}
+
+.mdx li + li {
+  margin-top: 0.35rem;
+}
+
+.mdx a {
+  color: var(--color-accent);
+  text-underline-offset: 3px;
+}
+
+.mdx strong {
+  font-weight: 620;
+}
+
+.mdx code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92em;
+}
+
+.marker-pop {
+  animation: marker-pop 220ms ease;
+}
+
+@keyframes marker-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-pop {
+    animation: none;
+  }
+}

@@ -1,0 +1,54 @@
+---
+title: "How to Click an Element and Send It to Claude Code"
+description: "Select a live element in Chrome and paste a prompt Claude Code can act on, without hunting for the component file first."
+slug: "click-element-send-claude-code"
+published: "2026-09-29"
+updated: "2026-09-29"
+---
+
+Claude Code runs in a terminal or an editor. The element you care about is in the browser. The gap between those two is where UI prompts go wrong: you describe a region, the agent edits a different component, and you spend the next message correcting it.
+
+You can close that gap by clicking the element and sending the click, not a paraphrase of the click.
+
+## What “send the element” actually means
+
+EditUI does not stream the DOM to Anthropic. When you click an element and press Copy all, the extension writes a prompt to your clipboard. You paste it into Claude Code. That paste is the send.
+
+The prompt includes:
+
+- the page URL and title
+- the viewport
+- your instruction
+- the element’s tag, visible text, and a compact opening tag
+- parent and sibling markup, plus a short list of computed styles such as font size, padding, and flex alignment
+
+You do not copy a CSS selector by hand. You also do not attach a screenshot. If the change depends on a picture of the whole page, say that in the note, or take the screenshot yourself.
+
+## One element
+
+1. Open the running page in Chrome.
+2. Turn on EditUI with the toolbar icon or Command-Shift-E.
+3. Click the element. An outline confirms the target.
+4. Type the change and add the edit.
+5. Press Copy all.
+6. Paste into Claude Code in the repo that serves this page.
+
+Ask Claude Code to implement that edit and then look at the resulting page. A single, specific note is usually enough for a heading, a button, or a card.
+
+## Several elements
+
+Click the next thing. The review tray keeps the earlier notes. Copy all sends the whole list, numbered, so Claude Code can apply them as one pass. That is usually better than five separate pastes, because the layout changes interact.
+
+## A note that survives the paste
+
+Write what should be different, and mention a constraint if you have one. “Make this secondary, but keep the same click target” is more useful than “fix the button.” If two similar elements are on the page, the click matters more than the wording, because the prompt includes the text and the surrounding markup of the one you selected.
+
+<EditExample
+  edits={[
+    { n: "1", text: "Hero heading — make this slightly smaller." },
+    { n: "2", text: "Primary button — this feels too prominent. Make it secondary." },
+  ]}
+  action="Copy all → paste into Claude Code"
+/>
+
+<ChromeCTA location="post-click-element-send-claude-code" />
