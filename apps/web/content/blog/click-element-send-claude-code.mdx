@@ -3,7 +3,7 @@ title: "How to Click an Element and Send It to Claude Code"
 description: "Select a live element in Chrome and paste a prompt Claude Code can act on, without hunting for the component file first."
 slug: "click-element-send-claude-code"
 published: "2026-09-29"
-updated: "2026-09-29"
+updated: "2026-09-30"
 ---
 
 Claude Code runs in a terminal or an editor. The element you care about is in the browser. The gap between those two is where UI prompts go wrong: you describe a region, the agent edits a different component, and you spend the next message correcting it.
@@ -26,18 +26,24 @@ You do not copy a CSS selector by hand. You also do not attach a screenshot. If 
 
 ## One element
 
-1. Open the running page in Chrome.
+1. Open the running page in Chrome. A localhost URL is fine. Use the width where the bug shows.
 2. Turn on EditUI with the toolbar icon or Command-Shift-E.
 3. Click the element. An outline confirms the target.
 4. Type the change and add the edit.
 5. Press Copy all.
 6. Paste into Claude Code in the repo that serves this page.
 
+<Shot caption="One selected element, the note written, and Copy all ready. The paste into Claude Code is the send." />
+
 Ask Claude Code to implement that edit and then look at the resulting page. A single, specific note is usually enough for a heading, a button, or a card.
 
-## Several elements
+## Several elements, one paste
 
 Click the next thing. The review tray keeps the earlier notes. Copy all sends the whole list, numbered, so Claude Code can apply them as one pass. That is usually better than five separate pastes, because the layout changes interact.
+
+A useful prompt looks like this in miniature: the page URL, the viewport, then one block per edit with your sentence and the selected element. Paste it once. After the app reloads, check the same URL. Do not start a new generation of the page.
+
+This path does not use MCP. Tools that push the click into Claude Code through an MCP server are a different setup, covered in [MCP pickers vs a copied batch](/blog/mcp-pickers-vs-copy-paste). If the comparison you actually wanted is Cursor's own pointing loop, start at [Cursor Design Mode in Chrome](/cursor).
 
 ## A note that survives the paste
 
@@ -45,8 +51,8 @@ Write what should be different, and mention a constraint if you have one. “Mak
 
 <EditExample
   edits={[
-    { n: "1", text: "Hero heading — make this slightly smaller." },
-    { n: "2", text: "Primary button — this feels too prominent. Make it secondary." },
+    { n: "1", text: "Hero heading. Make this slightly smaller." },
+    { n: "2", text: "Primary button. This feels too prominent. Make it secondary." },
   ]}
   action="Copy all → paste into Claude Code"
 />

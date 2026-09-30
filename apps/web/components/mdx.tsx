@@ -1,5 +1,6 @@
 import { ChromeCta } from "@/components/chrome-cta";
 import { DemoVideo, EditExample } from "@/components/edit-example";
+import { Shot } from "@/components/shot";
 
 export const mdxComponents = {
   ChromeCTA: ({ location = "mdx" }: { location?: string }) => (
@@ -9,4 +10,5 @@ export const mdxComponents = {
   ),
   EditExample,
   DemoVideo,
+  Shot,
 };

@@ -98,6 +98,14 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
+        <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+          <Link href="/cursor" className="text-accent underline decoration-accent/30 underline-offset-4">
+            Cursor Design Mode in Chrome
+          </Link>
+          <Link href="/cursor-visual-editor" className="text-accent underline decoration-accent/30 underline-offset-4">
+            Cursor Visual Editor
+          </Link>
+        </p>
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-24 text-center">

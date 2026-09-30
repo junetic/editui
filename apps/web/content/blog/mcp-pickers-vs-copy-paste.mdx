@@ -1,0 +1,96 @@
+---
+title: "MCP Element Pickers vs a Copy-Paste Batch"
+description: "Web to MCP, Clasp-it, MCP Pointer, and Pixelpick send a click to your agent through MCP. EditUI collects the review and copies one prompt. Here is when each path is the right one."
+slug: "mcp-pickers-vs-copy-paste"
+published: "2026-09-30"
+updated: "2026-09-30"
+---
+
+You can see the broken spacing. The agent cannot. The sentence you type next ("the card on the right") is where the edit goes to the wrong component.
+
+Two families of tools try to close that gap. MCP element pickers capture a click and deliver it to an agent that speaks the Model Context Protocol. EditUI captures a batch of clicks in Chrome and puts one prompt on your clipboard. You paste it into Claude Code, Cursor, Codex, or any other agent. No server, no repo install.
+
+They solve the same annoyance. They do not cost the same thing to set up, and they do not fail in the same places.
+
+## The shared problem
+
+A coding agent edits source. You judge the result in a browser. Between those two, "which element?" is the expensive question. A good picker answers it with the node you clicked: its text, its markup, some styles, and your instruction.
+
+Everything after that is plumbing. Either the agent pulls the selection through MCP, or you paste a prompt the extension already wrote.
+
+## The MCP path
+
+An MCP picker is a browser extension plus a server the agent can call. You install both, then the click shows up as a tool the agent can read. That is the appeal: no paste, and often a richer payload than a human would copy by hand (React component names, a screenshot, console noise).
+
+The setup is the cost. It is real, and it differs by product.
+
+**Web to MCP** is a browser extension and an MCP server. Their docs describe capturing a component and sending it to Cursor or Claude Code. You add an MCP URL to the editor, and their setup includes an account. The click is then something you reference from the agent, rather than a prompt you compose yourself.
+
+**Clasp-it** is a Chrome extension whose store listing says you click an element, type an instruction, and tell the editor to read recent picks through MCP. The listing describes a free tier of 10 picks a day (DOM and computed styles) and a paid tier that adds a screenshot, console logs, network requests, and React props. Setup is the extension, an account, and an MCP server command in the editor. It works on ordinary pages, including localhost.
+
+**MCP Pointer** stays on your machine. A Chrome extension captures Option-click (Alt-click on Windows) and a local MCP server, started with `npx`, exposes a `get-pointed-element` tool to Claude Code, Cursor, Windsurf, and similar agents. The payload is text, attributes, position, and styling, with experimental React component detection. You configure the server. You do not paste. The tool returns the element you pointed at.
+
+**Pixelpick** aims at Claude Code specifically. The npm package describes `npx pixelpick init`, a Chrome extension, and a hook that injects selections into the prompt. You select with Command-Shift-click, up to a handful of elements. Their docs say it is localhost-only. That is a deliberate limit, and it matters if you are reviewing a deployed page.
+
+**Stagewise** sits nearby. It is a toolbar you add to the app (React, Next, Vue, or Nuxt) plus an MCP server the editor enables, so comments on live elements can include DOM context and screenshots. The project has to include it.
+
+None of these are fake. They are genuine answers to "the agent cannot see what I see." Several of them will beat a pasted prompt when the payload includes source-file mapping or a screenshot, and when you want the agent to fetch the element itself.
+
+## The EditUI path
+
+Install the Chrome extension. Open the running page, including localhost. Turn Edit Mode on. Click an element, write the change, and keep going. Copy all. Paste the prompt into the agent that has the repository.
+
+The prompt is plain text: the URL, the viewport, each note, and DOM context for the elements you clicked. Tag, visible text, nearby markup, a few computed styles. No screenshot. No React fiber. No connection to the agent after the paste.
+
+There is nothing to add to `package.json`, no MCP config, and no account. The same clipboard works if you switch from Claude Code to Cursor to Codex tomorrow. The [batch](/batch-ui-edits) is the point. A page review is a list, and the list should arrive together.
+
+<EditExample
+  edits={[
+    { n: "1", text: "Hero heading. Make this slightly smaller." },
+    { n: "2", text: "These cards. Make them equal height." },
+    { n: "3", text: "This button. Make it secondary." },
+  ]}
+  action="Copy all, then paste once"
+/>
+
+## When MCP is the better tool
+
+Use a picker that speaks MCP when the integration is the feature you want.
+
+- The agent should pull the element without a paste, inside a session you already configured.
+- You want React component names or a source file, and that tool actually provides them for your stack. EditUI will not.
+- You want a screenshot, console logs, or network context attached to the click. Some of the tools above sell or include that. EditUI does not capture it.
+- You are standardizing the team on MCP anyway, and one more server is cheap compared with teaching everyone a paste step.
+- Pixelpick's localhost-only rule matches how you work, and you want the selection injected into Claude Code automatically.
+
+If those are true, the setup is worth it. A copied prompt will feel like a step backward.
+
+## When the copied batch is the better tool
+
+Use EditUI when the setup is the thing you are trying to avoid.
+
+- You do not want an MCP server, an account, or a package in the repo.
+- The review is a page, not a single div. Collecting eight notes and pasting once keeps the layout coherent.
+- The agent changes. A prompt does not care whether today's session is Claude Code, Cursor, or Codex.
+- You are in normal Chrome, on a tab you already sized, and you want to finish looking before any agent starts.
+- You do not need fiber data or a screenshot for this pass. The element, the text around it, and your sentence are enough.
+
+That last point is the honest limit. If the agent keeps editing the wrong component because the DOM and the source have drifted apart, a tool that reads the fiber tree is solving a problem EditUI leaves to you.
+
+## FAQ
+
+**Do I have to pick one forever?**
+No. MCP and a clipboard can coexist. Use the picker when you are in a wired-up session. Use the batch when you are reviewing and the agent is whoever you paste to.
+
+**Is EditUI an MCP server?**
+No. Copy all writes a prompt. You paste it. The extension does not register a tool with Claude Code or Cursor.
+
+**Which MCP picker should I start with?**
+Whichever matches the agent and the page. MCP Pointer if you want a local Option-click into several editors. Pixelpick if you are on Claude Code and localhost is enough. Clasp-it or Web to MCP if you want their hosted connection and accept the account. Read their current docs before you install. This page is a map, not a setup guide.
+
+**Does the batch replace pointing?**
+No. You still point. The difference is that the points accumulate, and the agent sees them as one review.
+
+<ChromeCTA location="post-mcp-pickers" />
+
+The Chrome workflow next to Cursor's own tools is [Cursor Design Mode](/cursor). The Claude Code version of the paste is [click an element and send it](/blog/click-element-send-claude-code).

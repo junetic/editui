@@ -35,6 +35,8 @@ export default function BatchPage() {
           <RelatedPosts
             links={[
               { href: "/blog/batch-ui-changes-ai", label: "How to batch UI changes with AI coding agents" },
+              { href: "/blog/mcp-pickers-vs-copy-paste", label: "MCP pickers vs a copied batch" },
+              { href: "/cursor", label: "Cursor Design Mode in Chrome" },
               { href: "/visual-ui-editor", label: "Visual UI editing" },
               { href: "/chrome-extension", label: "Chrome extension" },
             ]}

@@ -3,7 +3,7 @@ title: "How to Visually Edit UI with Claude Code"
 description: "Point at elements in your running frontend and give Claude Code precise visual feedback."
 slug: "visual-edit-ui-claude-code"
 published: "2026-09-29"
-updated: "2026-09-29"
+updated: "2026-09-30"
 ---
 
 Claude Code can change a frontend quickly. The slow part is telling it which pixels you mean. “The button under the pricing cards, the one that feels too loud” is obvious when you are looking at the page and vague once it becomes a chat message.
@@ -12,7 +12,9 @@ Visual editing, here, means you stay on the running page. You click the element,
 
 ## Run the page you actually want changed
 
-Start the dev server. Open that URL in Chrome, not a screenshot and not a description of the route. If the problem only shows up at a laptop width, set the window to that width before you click. The viewport size travels with the prompt.
+Start the dev server. Open that URL in Chrome, not a screenshot and not a description of the route. Localhost is a normal target: `http://localhost:3000/pricing` is a better prompt than "the pricing page." If the problem only shows up at a laptop width, set the window to that width before you click. The viewport size travels with the prompt.
+
+<Shot caption="A localhost page in Chrome with Edit Mode on, ready for the first click." />
 
 ## Point, then write the outcome
 
@@ -28,7 +30,13 @@ Avoid a tour of the stylesheet unless you already know the value you want. Claud
 
 Keep going until the review is done. A page usually has more than one issue, and sending them separately makes you re-explain the layout each time. When the list feels complete, press Copy all and paste the prompt into Claude Code in the repository that renders the page.
 
-The prompt starts with the URL and viewport, then one section per edit. Claude Code is still the thing that edits the code. EditUI does not open a pull request or call the model for you.
+The prompt starts with the URL and viewport, then one section per edit. An example of the shape, shortened:
+
+- URL and viewport first, so Claude Code knows which page and which width.
+- Then `Edit 1`, `Edit 2`, `Edit 3`, each with the sentence you wrote and the element you clicked.
+- A closing line asking it to implement the list and review the page against each note.
+
+Claude Code is still the thing that edits the code. EditUI does not open a pull request or call the model for you. There is also no MCP server in this path. If you would rather have the agent pull element context itself, that tradeoff is in [MCP pickers vs a copied batch](/blog/mcp-pickers-vs-copy-paste). The same pointing habit next to Cursor is on [Cursor Design Mode in Chrome](/cursor).
 
 ## Check the same elements after reload
 

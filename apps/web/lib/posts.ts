@@ -14,6 +14,7 @@ const order = [
   "visual-edit-ui-claude-code",
   "click-element-send-claude-code",
   "cursor-design-mode-guide",
+  "mcp-pickers-vs-copy-paste",
   "batch-ui-changes-ai",
   "polish-ai-generated-ui",
   "visual-context-coding-agents",

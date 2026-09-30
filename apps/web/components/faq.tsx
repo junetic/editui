@@ -5,7 +5,7 @@ export interface FaqItem {
   a: string;
 }
 
-export function Faq({ items, schema = false }: { items: FaqItem[]; schema?: boolean }) {
+export function Faq({ items, schema = false, title = "Questions" }: { items: FaqItem[]; schema?: boolean; title?: string }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -22,7 +22,7 @@ export function Faq({ items, schema = false }: { items: FaqItem[]; schema?: bool
   return (
     <section>
       {schema ? <JsonLd data={data} /> : null}
-      <h2 className="text-2xl tracking-tight">Questions</h2>
+      <h2 className="text-2xl tracking-tight">{title}</h2>
       <dl className="mt-6 divide-y divide-line border-y border-line">
         {items.map((item) => (
           <div key={item.q} className="py-5">

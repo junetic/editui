@@ -49,6 +49,8 @@ export default function VisualUiEditorPage() {
         </section>
         <RelatedPosts
           links={[
+            { href: "/cursor-visual-editor", label: "Cursor's Visual Editor, outside Cursor" },
+            { href: "/cursor", label: "Cursor Design Mode in Chrome" },
             { href: "/batch-ui-edits", label: "Batch UI edits" },
             { href: "/chrome-extension", label: "Chrome extension" },
             { href: "/blog/polish-ai-generated-ui", label: "Polish the last 10% of AI-generated UI" },

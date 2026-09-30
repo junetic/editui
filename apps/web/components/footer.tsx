@@ -9,6 +9,7 @@ const product = [
 ];
 
 const guides = [
+  { href: "/cursor-visual-editor", label: "Cursor Visual Editor" },
   { href: "/visual-ui-editor", label: "Visual UI editor" },
   { href: "/batch-ui-edits", label: "Batch UI edits" },
   { href: "/blog", label: "Blog" },
