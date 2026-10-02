@@ -11,5 +11,14 @@ web-ext.config.ts
 test-results
 playwright-report
 blob-report
+coverage
 *.log
 .DS_Store
+
+.env
+.env.*
+!.env.example
+.vercel
+*.local
+*.pem
+*.key
