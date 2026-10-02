@@ -2,6 +2,16 @@
   "name": "editui",
   "description": "Point at your UI. Tell your coding agent what to change.",
   "private": true,
+  "license": "MIT",
+  "author": "Usercall (https://usercall.com)",
+  "homepage": "https://www.editui.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junetic/editui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/junetic/editui/issues"
+  },
   "version": "1.0.0",
   "type": "module",
   "scripts": {
