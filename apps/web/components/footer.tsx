@@ -35,6 +35,11 @@ export function Footer() {
         <div>
           <p className="text-sm font-medium">Product</p>
           <ul className="mt-3 space-y-2 text-sm text-muted">
+            <li>
+              <a href={site.chromeStoreUrl} className="hover:text-ink" rel="noreferrer">
+                Add to Chrome
+              </a>
+            </li>
             {product.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="hover:text-ink">

@@ -27,6 +27,7 @@ export default function HomePage() {
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Chrome",
     url: site.url,
+    installUrl: site.chromeStoreUrl,
     description: site.description,
     offers: {
       "@type": "Offer",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { site } from "@/data/site";
 import { pageMeta } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMeta({
@@ -48,7 +49,13 @@ export default function PrivacyPage() {
         <h2>Removing data</h2>
         <p>Delete an edit in the review tray, or uninstall the extension. Uninstalling removes the notes stored by the extension.</p>
         <h2>Contact</h2>
-        <p>Use the developer email on the Chrome Web Store listing.</p>
+        <p>
+          Use the developer email on the{" "}
+          <a href={site.chromeStoreUrl} className="text-accent underline decoration-accent/30 underline-offset-4" rel="noreferrer">
+            Chrome Web Store listing
+          </a>
+          .
+        </p>
       </div>
     </article>
   );

@@ -86,18 +86,6 @@ export default function ChromeExtensionPage() {
             <CodeExample code={samplePrompt} />
           </div>
         </section>
-        <section id="install">
-          <h2 className="text-2xl tracking-tight">Install</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
-            The Chrome Web Store listing is the install path once it is published. Until that URL is set, load the extension from a local build.
-          </p>
-          <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6">
-            <li>From the repo, run pnpm install and pnpm dev.</li>
-            <li>Open chrome://extensions and turn on Developer mode.</li>
-            <li>Load unpacked and choose output/chrome-mv3.</li>
-            <li>Open your app, click the EditUI icon, and start a review.</li>
-          </ol>
-        </section>
         <section>
           <h2 className="text-2xl tracking-tight">Privacy</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
