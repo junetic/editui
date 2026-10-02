@@ -1,84 +1,67 @@
 # EditUI
 
-Chrome extension for pointing at a running UI, writing edit notes, and pasting one prompt into a coding agent.
+![EditUI demo: click a live element, leave a note, and collect the edits](docs/editui-demo.gif)
 
-![Edit Mode on a page: an element is selected and a short edit note is open](store/screenshots/01-point-and-prompt.jpg)
+[![Add to Chrome](https://img.shields.io/badge/Add%20to%20Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak)
 
-Point at an element, leave a note, collect the batch, then copy one prompt. EditUI is agent-independent, Chrome-native, and batch-first. It uses copy and paste. No MCP server, repo connection, or account is required.
+[Add EditUI to Chrome](https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak)
 
-Made by [Usercall](https://usercall.com). Site: [editui.app](https://www.editui.app). Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak).
+You can see the UI bug, and the agent cannot, so stop describing which element.
 
-This repo has store screenshots, not an animated GIF. The still above is `store/screenshots/01-point-and-prompt.jpg`. The site has an interactive demo.
+![Three edits collected in the review tray: the heading, the cards, and the button](store/screenshots/02-collect-edits.jpg)
 
-## What it does
+Three edits collected on one page. The store screenshots stop at three.
 
-You review the page already open in Chrome, including localhost. Click the elements you want changed and write a short note on each one. EditUI copies a single prompt with the page, the element, and enough DOM context for a coding agent to make the change. The extension does not edit source files.
+Works with Claude Code / Cursor / Codex
 
-## Workflow
+Click the element, write the note, keep going, then paste one prompt. No account, no repo setup, and no MCP.
+
+Made by [Usercall](https://usercall.co). Site: [editui.app](https://www.editui.app).
+
+The clip above is the demo from [this Reddit post](https://www.reddit.com/r/ClaudeCode/comments/1wvo13p/i_got_tired_of_explaining_tiny_ui_fixes_to_claude/). [Play the video file](docs/editui-demo.mp4).
+
+## How it works
 
 Point → Prompt → Collect → Send
 
 1. **Point.** Turn on Edit Mode and click a live element.
 2. **Prompt.** Write the change you want.
-3. **Collect.** Keep reviewing. EditUI remembers every note.
-4. **Send.** Copy the whole batch and paste it into a coding agent.
-
-## Agents
-
-The prompt is plain text on the clipboard.
-
-- Claude Code
-- Cursor
-- Codex
-- Any other agent, or any editor, that can take a paste
+3. **Collect.** Keep reviewing. Every note stays in the batch.
+4. **Send.** Copy the batch and paste it into Claude Code, Cursor, Codex, or anywhere else that takes text.
 
 ## Privacy
 
-The extension is local-first.
+The extension is local-first. Notes stay in `chrome.storage.local` until you copy a prompt and paste it yourself. The content script is on every page so the toolbar button can start a review, and it does not read the page until Edit Mode is on. The extension has no account and no backend. Details are in [`store/privacy-policy.md`](store/privacy-policy.md).
 
-- Notes stay in `chrome.storage.local` on your device.
-- The content script is registered for all URLs so the toolbar button and shortcut can start a review. It does not read the page until you turn Edit Mode on.
-- Page content leaves the browser only when you copy a prompt and paste it into a tool you choose.
-- The extension does not use an account, a backend, or MCP.
-- The marketing site in `apps/web` can send page views to Vercel Web Analytics. The extension does not.
+## Build the extension
 
-Details are in [`store/privacy-policy.md`](store/privacy-policy.md).
-
-## Extension
-
-Use Node.js 22 and pnpm 10.
+Node.js 22 and pnpm 10.
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-In Chrome, open `chrome://extensions`, turn on Developer mode, and load `output/chrome-mv3` as an unpacked extension. Click the toolbar icon, or press Command-Shift-E (Ctrl-Shift-E), to enter Edit Mode.
+Load `output/chrome-mv3` at `chrome://extensions` as an unpacked extension. The toolbar icon, or Command-Shift-E (Ctrl-Shift-E), toggles Edit Mode.
 
 ```bash
 pnpm build
 pnpm zip
 pnpm test
 pnpm typecheck
-pnpm test:e2e
 ```
 
-`pnpm dev` and `pnpm build` write the extension to `output/chrome-mv3`. `pnpm zip` writes a Chrome Web Store package under `output/`. `pnpm test:e2e` builds the extension and opens a headed Chromium window, so it needs a display. Store listing copy is in [`store/listing.md`](store/listing.md).
+`pnpm zip` writes the store package under `output/`. `pnpm test:e2e` needs a display. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Marketing site
 
 ```bash
 pnpm dev:web
 pnpm build:web
-pnpm typecheck:web
 ```
 
-The dev server runs at <http://localhost:3333>. Optional environment variables are in [`.env.example`](.env.example). None are required to develop the extension or the site.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+The site runs at <http://localhost:3333>. Optional public settings are in [`.env.example`](.env.example).
 
 ## License
 
-[MIT](LICENSE). The npm packages in this repo stay `private` so they are not published to the npm registry.
+[MIT](LICENSE)

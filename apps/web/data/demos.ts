@@ -5,7 +5,7 @@ export interface DemoEdit {
 }
 
 export const homepageDemo = {
-  url: "usercall.com",
+  url: "usercall.co",
   heading: "Customer interviews, without the calendar chase",
   lede: "A running app, reviewed in Chrome. Click a part of the page and leave the change you want.",
   cards: [
@@ -39,7 +39,7 @@ export const pageBatch = [
 
 export const samplePrompt = `I reviewed the UI at:
 
-\`https://usercall.com/\`
+\`https://usercall.co/\`
 
 Viewport: 1440×900
 

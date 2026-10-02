@@ -4,7 +4,7 @@ export const site = {
   chromeStoreUrl:
     process.env.NEXT_PUBLIC_CHROME_STORE_URL ||
     "https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak",
-  usercallUrl: "https://usercall.com",
+  usercallUrl: "https://usercall.co",
   description:
     "Point at your UI. Tell your coding agent what to change. Click elements in Chrome, collect the edits, and copy one prompt for Claude Code, Cursor, or any coding agent.",
 };
