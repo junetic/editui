@@ -18,8 +18,6 @@ Click the element, write the note, keep going, then paste one prompt. No account
 
 Made by [Usercall](https://usercall.co). Site: [editui.app](https://www.editui.app).
 
-The clip above is the demo from [this Reddit post](https://www.reddit.com/r/ClaudeCode/comments/1wvo13p/i_got_tired_of_explaining_tiny_ui_fixes_to_claude/). [Play the video file](docs/editui-demo.mp4).
-
 ## How it works
 
 Point → Prompt → Collect → Send
