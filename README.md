@@ -10,8 +10,6 @@ You can see the UI bug, and the agent cannot, so stop describing which element.
 
 ![Three edits collected in the review tray: the heading, the cards, and the button](store/screenshots/02-collect-edits.jpg)
 
-Three edits collected on one page. The store screenshots stop at three.
-
 Works with Claude Code / Cursor / Codex
 
 Click the element, write the note, keep going, then paste one prompt. No account, no repo setup, and no MCP.
