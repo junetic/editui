@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { nav } from "@/data/site";
 import { ChromeCta } from "@/components/chrome-cta";
+import { GitHubLink } from "@/components/github-link";
 
 export function Header() {
   return (
@@ -15,25 +16,29 @@ export function Header() {
             {item.label}
           </Link>
         ))}
+        <GitHubLink />
         <ChromeCta location="header" size="sm" />
       </nav>
-      <details className="relative sm:hidden">
-        <summary className="cursor-pointer list-none text-sm text-muted">Menu</summary>
-        <nav className="absolute right-0 z-10 mt-2 w-44 rounded-xl border border-line bg-card p-3 shadow-sm" aria-label="Primary">
-          <ul className="space-y-2 text-sm">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="block py-1">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-3">
-            <ChromeCta location="header-mobile" size="sm" />
-          </div>
-        </nav>
-      </details>
+      <div className="flex items-center gap-4 sm:hidden">
+        <GitHubLink />
+        <details className="relative">
+          <summary className="cursor-pointer list-none text-sm text-muted">Menu</summary>
+          <nav className="absolute right-0 z-10 mt-2 w-44 rounded-xl border border-line bg-card p-3 shadow-sm" aria-label="Primary">
+            <ul className="space-y-2 text-sm">
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="block py-1">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3">
+              <ChromeCta location="header-mobile" size="sm" />
+            </div>
+          </nav>
+        </details>
+      </div>
     </header>
   );
 }

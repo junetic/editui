@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/data/site";
+import { GitHubLink } from "@/components/github-link";
 
 const product = [
   { href: "/chrome-extension", label: "Chrome extension" },
@@ -30,6 +31,9 @@ export function Footer() {
             <a href={site.usercallUrl} className="underline decoration-line underline-offset-4 hover:text-ink">
               Made by Usercall
             </a>
+          </p>
+          <p className="mt-3">
+            <GitHubLink />
           </p>
         </div>
         <div>
