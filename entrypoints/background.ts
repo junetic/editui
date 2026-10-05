@@ -11,7 +11,7 @@ export default defineBackground(() => {
 
   browser.commands.onCommand.addListener((command) => {
     if (command !== 'toggle-edit-mode') return;
-    void browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+    void browser.tabs.query({ active: true, lastFocusedWindow: true }).then((tabs) => {
       void toggleTab(tabs[0]?.id);
     });
   });

@@ -2,6 +2,7 @@ import './style.css';
 import ReactDOM from 'react-dom/client';
 import { App } from './app';
 import { isToggleMessage } from '../../lib/messages';
+import { isEditShortcut } from '../../lib/shortcut';
 import { emitToggle } from '../../lib/toggle';
 
 const ISOLATED_EVENTS = [
@@ -58,9 +59,17 @@ export default defineContentScript({
     const onMessage = (message: unknown) => {
       if (isToggleMessage(message)) emitToggle();
     };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!isEditShortcut(event)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      emitToggle();
+    };
     browser.runtime.onMessage.addListener(onMessage);
+    window.addEventListener('keydown', onKeyDown, true);
     ctx.onInvalidated(() => {
       browser.runtime.onMessage.removeListener(onMessage);
+      window.removeEventListener('keydown', onKeyDown, true);
       ui.remove();
     });
   },

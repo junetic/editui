@@ -1,4 +1,6 @@
 const listeners = new Set<() => void>();
+const ECHO_MS = 300;
+let suppressUntil = 0;
 
 export function onToggle(listener: () => void): () => void {
   listeners.add(listener);
@@ -6,5 +8,8 @@ export function onToggle(listener: () => void): () => void {
 }
 
 export function emitToggle(): void {
+  const now = Date.now();
+  if (now < suppressUntil) return;
+  suppressUntil = now + ECHO_MS;
   for (const listener of listeners) listener();
 }
