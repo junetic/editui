@@ -33,6 +33,15 @@ test('toggles edit mode with Command-Shift-E', async () => {
     await page.locator('#hero-heading').click();
     const prompt = page.locator('[data-editui="prompt-input"]');
     await expect(prompt).toBeFocused();
+    await prompt.fill('Make this heading slightly smaller');
+    await expect(page.getByRole('button', { name: 'Cancel' })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Close' })).toBeVisible();
+    const copy = page.locator('[data-editui="prompt-copy"]');
+    await expect(copy).toBeVisible();
+    await expect(copy.locator('svg')).toBeVisible();
+    const add = page.getByRole('button', { name: 'Add' });
+    await expect(add).toBeVisible();
+    await expect(add.locator('svg')).toBeVisible();
     await page.waitForTimeout(350);
     await page.keyboard.press('Shift+Meta+KeyE');
     await expect(page.locator('[data-editui="editing"]')).toHaveCount(0);

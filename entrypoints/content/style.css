@@ -144,9 +144,37 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 }
 
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .popover-title {
-  margin: 0 0 8px;
+  margin: 0;
   font-weight: 650;
+}
+
+.popover-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: -4px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.popover-close:hover {
+  background: #f3f4f6;
+  color: #111827;
 }
 
 .popover textarea,
@@ -178,8 +206,25 @@
 }
 
 .popover-actions {
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 8px;
   margin-top: 8px;
+}
+
+.popover-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.popover-icon-btn svg {
+  display: block;
+  flex: none;
+}
+
+.outline-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .primary,
