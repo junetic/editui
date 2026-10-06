@@ -1,6 +1,6 @@
 export const site = {
   name: "EditUI",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://editui.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.editui.app",
   chromeStoreUrl:
     process.env.NEXT_PUBLIC_CHROME_STORE_URL ||
     "https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak",
