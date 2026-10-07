@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { copyText } from '../lib/clipboard';
 
 interface PromptPopoverProps {
   title: string;
@@ -10,6 +9,7 @@ interface PromptPopoverProps {
   onChange: (value: string) => void;
   onSubmit: () => void;
   onCancel: () => void;
+  onCopy: () => Promise<void>;
 }
 
 export function PromptPopover({
@@ -21,6 +21,7 @@ export function PromptPopover({
   onChange,
   onSubmit,
   onCancel,
+  onCopy,
 }: PromptPopoverProps) {
   const input = useRef<HTMLTextAreaElement>(null);
   const [copyLabel, setCopyLabel] = useState('Copy');
@@ -30,9 +31,7 @@ export function PromptPopover({
   }, []);
 
   function copyDraft() {
-    const text = value.trim();
-    if (!text) return;
-    void copyText(text).then(
+    void onCopy().then(
       () => {
         setCopyLabel('Copied');
         window.setTimeout(() => setCopyLabel('Copy'), 1600);

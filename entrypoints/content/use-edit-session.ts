@@ -63,6 +63,7 @@ export interface EditSession {
   selectEdit: (id: string) => void;
   copyAll: () => void;
   undoSend: () => void;
+  copyPrompt: () => Promise<void>;
   copyEdit: (id: string) => Promise<void>;
   copyNote: (batchId: string, editId: string) => Promise<void>;
   copyBatch: (batchId: string) => void;
@@ -544,6 +545,24 @@ export function useEditSession(): EditSession {
         const ids = new Set(current.map((edit) => edit.id));
         return [...restored.filter((edit) => !ids.has(edit.id)), ...current];
       });
+    },
+    copyPrompt: () => {
+      const instruction = draftRef.current.trim();
+      const nodes = selectionRef.current.filter((element) => element.isConnected);
+      if (!instruction || !nodes.length) return Promise.reject(new Error('Nothing to copy'));
+      const page = currentPage();
+      const viewport = currentViewport();
+      const edit: Edit = {
+        id: activeRef.current ?? 'draft',
+        instruction,
+        createdAt: Date.now(),
+        page,
+        viewport,
+        elements: nodes.map(captureElement),
+        fingerprints: [],
+        matchState: 'matched',
+      };
+      return copyText(formatPrompt([edit], page, viewport));
     },
     copyEdit: (id) => {
       const [edit] = withLiveBounds(
