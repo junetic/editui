@@ -40,6 +40,7 @@ export function App() {
           onChange={session.setDraft}
           onSubmit={session.submit}
           onCancel={session.cancel}
+          onCopy={session.copyPrompt}
         />
       ) : null}
       {session.sidebarOpen ? (

@@ -21,6 +21,7 @@ test('toggles edit mode with Command-Shift-E', async () => {
   });
 
   try {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     const page = context.pages()[0] ?? (await context.newPage());
     await page.goto(`http://127.0.0.1:${address.port}/`);
     await expect(async () => {
@@ -39,6 +40,12 @@ test('toggles edit mode with Command-Shift-E', async () => {
     const copy = page.locator('[data-editui="prompt-copy"]');
     await expect(copy).toBeVisible();
     await expect(copy.locator('svg')).toBeVisible();
+    await copy.click();
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain('**DOM context:**');
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toContain('Make this heading slightly smaller');
+    expect(copied).toContain('Pricing that scales with your research');
+    expect(copied).toContain('<h1 id="hero-heading"');
     const add = page.getByRole('button', { name: 'Add' });
     await expect(add).toBeVisible();
     await expect(add.locator('svg')).toBeVisible();
