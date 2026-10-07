@@ -49,6 +49,25 @@ pnpm typecheck
 
 `pnpm zip` writes the store package under `output/`. `pnpm test:e2e` needs a display. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+### Firefox
+
+Firefox uses the same extension code with an explicit Manifest V3 target:
+
+```bash
+pnpm build:firefox
+```
+
+In Firefox, open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on**, and select `output/firefox-mv3/manifest.json`. Open or reload a normal web page, then use the toolbar icon or Ctrl-Shift-E (Command-Shift-E on macOS) to toggle Edit Mode. If Firefox requests site access, allow it for the page you are testing. Firefox internal pages and other restricted pages cannot run the extension.
+
+Temporary add-ons are removed when Firefox closes. After rebuilding, click **Reload** for EditUI in `about:debugging` and reload the page you are testing.
+
+```bash
+pnpm dev:firefox # Launch a separate Firefox development profile with live reload
+pnpm zip:firefox # Write the Firefox package under output/
+```
+
+The ZIP is an unsigned build artifact, not a permanently installable release. Firefox signing and store publication are handled separately. See [CONTRIBUTING.md](CONTRIBUTING.md) for the manual Firefox test checklist.
+
 ## Marketing site
 
 ```bash

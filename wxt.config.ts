@@ -3,10 +3,20 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   outDir: 'output',
   modules: ['@wxt-dev/module-react'],
-  manifest: {
+  manifest: ({ browser }) => ({
     name: 'EditUI',
     description: 'Point at your UI. Tell your coding agent what to change.',
     permissions: ['storage'],
+    ...(browser === 'firefox' && {
+      browser_specific_settings: {
+        gecko: {
+          id: 'editui@editui.app',
+          data_collection_permissions: {
+            required: ['none'],
+          },
+        },
+      },
+    }),
     action: {
       default_title: 'Toggle EditUI (Ctrl+Shift+E)',
     },
@@ -25,5 +35,5 @@ export default defineConfig({
         description: 'Toggle Edit Mode',
       },
     },
-  },
+  }),
 });
