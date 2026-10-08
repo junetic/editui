@@ -258,6 +258,59 @@
   color: #b91c1c;
 }
 
+.tray-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.tray-buttons > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.tray-buttons > .danger-btn,
+.tray-buttons > .undo-clear-btn {
+  flex: none;
+}
+
+.danger-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 12px;
+  background: #dc2626;
+  color: #fff;
+  font: inherit;
+  font-weight: 550;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background: #b91c1c;
+}
+
+.undo-clear-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 12px;
+  background: #2563eb;
+  color: #fff;
+  font: inherit;
+  font-weight: 550;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.undo-clear-btn:hover {
+  background: #1d4ed8;
+}
+
+.danger-btn:focus-visible,
+.undo-clear-btn:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
 .wide {
   display: inline-flex;
   align-items: center;
@@ -507,6 +560,12 @@
 .empty {
   margin: 8px 0 12px;
   color: #6b7280;
+}
+
+.empty.cleared {
+  margin-top: 24px;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .sent-block {
