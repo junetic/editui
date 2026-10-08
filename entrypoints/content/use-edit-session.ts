@@ -55,6 +55,7 @@ export interface EditSession {
   copyState: 'idle' | 'copied' | 'error';
   canUndo: boolean;
   saveError: boolean;
+  canUndoClear: boolean;
   setDraft: (value: string) => void;
   submit: () => void;
   cancel: () => void;
@@ -71,6 +72,8 @@ export interface EditSession {
   forgetNote: (batchId: string, editId: string) => void;
   reselect: (id: string) => void;
   remove: (id: string) => void;
+  clearAll: () => void;
+  undoClear: () => void;
   updateInstruction: (id: string, instruction: string) => void;
 }
 
@@ -92,6 +95,7 @@ export function useEditSession(): EditSession {
   const [layoutTick, setLayoutTick] = useState(0);
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle');
   const [saveError, setSaveError] = useState(false);
+  const [cleared, setCleared] = useState<{ edits: Edit[]; history: SentBatch[] } | null>(null);
   const [pageKey, setPageKey] = useState(() => pageStorageKey(location.href));
 
   const live = useRef(new Map<string, Element[]>());
@@ -279,6 +283,7 @@ export function useEditSession(): EditSession {
     saveKey.current = null;
     historyKey.current = null;
     setUndoBatch(null);
+    setCleared(null);
     void Promise.all([loadEdits(pageKey), loadSent(sentStorageKey(location.href))])
       .then(([stored, sent]) => {
         if (cancelled) return;
@@ -437,6 +442,7 @@ export function useEditSession(): EditSession {
       };
       live.current.set(edit.id, elements);
       setEdits((prev) => [...prev, edit]);
+      setCleared(null);
     }
     actions.current.cancel();
     setActiveEditId(selectedId);
@@ -484,7 +490,7 @@ export function useEditSession(): EditSession {
     draft,
     edits,
     history,
-    sidebarOpen: editing && (edits.length > 0 || history.length > 0 || undoBatch !== null),
+    sidebarOpen: editing && (edits.length > 0 || history.length > 0 || undoBatch !== null || cleared !== null),
     selectedId: promptOpen ? null : activeEditId,
     selectTick,
     selectedPulse: pulseId === activeEditId && !promptOpen,
@@ -492,6 +498,7 @@ export function useEditSession(): EditSession {
     copyState,
     canUndo: undoBatch !== null,
     saveError,
+    canUndoClear: cleared !== null,
     setDraft,
     submit,
     cancel: () => actions.current.cancel(),
@@ -608,6 +615,30 @@ export function useEditSession(): EditSession {
       setSelection([]);
     },
     remove,
+    clearAll: () => {
+      if (!editsRef.current.length && !historyRef.current.length) return;
+      setCleared({ edits: editsRef.current, history: historyRef.current });
+      actions.current.cancel();
+      live.current.clear();
+      setEdits([]);
+      setHistory([]);
+      setHotId(null);
+      window.clearTimeout(undoTimer.current);
+      setUndoBatch(null);
+      setCopyState('idle');
+    },
+    undoClear: () => {
+      if (!cleared) return;
+      setCleared(null);
+      setEdits(
+        cleared.edits.map((edit) => {
+          const result = rematchEdit(document, edit);
+          if (result.state === 'matched') live.current.set(edit.id, result.elements);
+          return { ...edit, matchState: result.state };
+        }),
+      );
+      setHistory(cleared.history);
+    },
     updateInstruction: (id, instruction) => {
       setEdits((prev) => prev.map((edit) => (edit.id === id ? { ...edit, instruction } : edit)));
     },

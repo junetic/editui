@@ -24,6 +24,7 @@ interface ReviewTrayProps {
   copyState: 'idle' | 'copied' | 'error';
   canUndo: boolean;
   saveError: boolean;
+  canUndoClear: boolean;
   onExit: () => void;
   onHoverItem: (id: string | null) => void;
   onSelect: (id: string) => void;
@@ -36,6 +37,8 @@ interface ReviewTrayProps {
   onForget: (batchId: string, editId: string) => void;
   onReselect: (id: string) => void;
   onDelete: (id: string) => void;
+  onClearAll: () => void;
+  onUndoClear: () => void;
   onInstruction: (id: string, instruction: string) => void;
 }
 
@@ -129,7 +132,17 @@ export function ReviewTray(props: ReviewTrayProps) {
         </button>
       </header>
       <div className="tray-list">
-        {total === 0 ? <p className="empty">Click an element to add a note.</p> : null}
+        {total === 0 ? (
+          props.canUndoClear ? (
+            <p className="empty cleared" data-editui="cleared-empty">
+              Notes empty.
+              <br />
+              Click an element to add a new one.
+            </p>
+          ) : (
+            <p className="empty">Click an element to add a note.</p>
+          )
+        ) : null}
         <ol>
           {props.edits.map((edit, index) => (
             <NoteRow
@@ -189,27 +202,38 @@ export function ReviewTray(props: ReviewTrayProps) {
             Undo
           </button>
         ) : null}
-        <button
-          type="button"
-          className="primary wide"
-          data-editui={copyAgain ? 'copy-again' : 'copy-all'}
-          onClick={() => {
-            if (!copyAgain) {
-              props.onCopy();
-              return;
-            }
-            const batch = props.history[0];
-            if (batch) props.onCopyBatch(batch.id);
-          }}
-          disabled={!copyAgain && !props.edits.length}
-        >
-          {copyAgain ? (
-            <span className="btn-check" aria-hidden="true">
-              ✓
-            </span>
+        <div className="tray-buttons">
+          {props.canUndoClear ? (
+            <button type="button" className="undo-clear-btn" data-editui="undo-clear" onClick={props.onUndoClear}>
+              Undo clear
+            </button>
+          ) : total > 0 ? (
+            <button type="button" className="danger-btn" data-editui="clear-all" onClick={props.onClearAll}>
+              Clear all
+            </button>
           ) : null}
-          {copyLabel}
-        </button>
+          <button
+            type="button"
+            className="primary wide"
+            data-editui={copyAgain ? 'copy-again' : 'copy-all'}
+            onClick={() => {
+              if (!copyAgain) {
+                props.onCopy();
+                return;
+              }
+              const batch = props.history[0];
+              if (batch) props.onCopyBatch(batch.id);
+            }}
+            disabled={!copyAgain && !props.edits.length}
+          >
+            {copyAgain ? (
+              <span className="btn-check" aria-hidden="true">
+                ✓
+              </span>
+            ) : null}
+            {copyLabel}
+          </button>
+        </div>
       </footer>
       <div className="tray-resize" data-editui="tray-resize" onPointerDown={onResizeStart} />
     </aside>
