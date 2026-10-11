@@ -6,6 +6,12 @@
 
 [Add EditUI to Chrome](https://chromewebstore.google.com/detail/editui/kolehloegjbpkeehflbdkjkdmljobfak)
 
+--
+
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/editui)](https://addons.mozilla.org/en-US/firefox/addon/editui/)
+
+[Add EditUI to Firefox](https://addons.mozilla.org/en-US/firefox/addon/editui/)
+
 You can see the UI bug, and the agent cannot, so stop describing which element.
 
 ![Three edits collected in the review tray: the heading, the cards, and the button](store/screenshots/02-collect-edits.jpg)
