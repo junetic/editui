@@ -19,12 +19,23 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   publish:
     if: github.ref == 'refs/heads/main'
+    environment: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Only junetic can publish
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          if [ "$ACTOR" != "junetic" ]; then
+            echo "Publish stores can only be run by junetic. This run was started by ${ACTOR}."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
@@ -54,8 +65,12 @@ jobs:
           git add package.json
           git commit -m "Release ${{ steps.version.outputs.version }}."
           git tag "v${{ steps.version.outputs.version }}"
-          git push origin HEAD:main
+          branch="release/${{ steps.version.outputs.version }}"
+          git push origin HEAD:"refs/heads/${branch}"
           git push origin "v${{ steps.version.outputs.version }}"
+          gh pr create --base main --head "${branch}" --title "Release ${{ steps.version.outputs.version }}" --body "Version bump for the store release. Merge this so main matches the published package."
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - run: pnpm zip
 
