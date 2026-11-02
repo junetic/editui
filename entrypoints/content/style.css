@@ -258,6 +258,56 @@
   color: #b91c1c;
 }
 
+.tray-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.clear-all-btn,
+.undo-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  align-self: center;
+  border: 0;
+  padding: 2px 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.clear-all-btn {
+  color: #6b7280;
+}
+
+.clear-all-btn:hover {
+  color: #374151;
+}
+
+.primary svg {
+  display: block;
+  flex: none;
+}
+
+.undo-clear-btn {
+  color: #111827;
+}
+
+.undo-clear-btn:hover {
+  color: #000;
+}
+
+.clear-all-btn:focus-visible,
+.undo-clear-btn:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
 .wide {
   display: inline-flex;
   align-items: center;
@@ -507,6 +557,12 @@
 .empty {
   margin: 8px 0 12px;
   color: #6b7280;
+}
+
+.empty.cleared {
+  margin-top: 24px;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .sent-block {

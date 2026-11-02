@@ -52,6 +52,7 @@ export function App() {
           copyState={session.copyState}
           canUndo={session.canUndo}
           saveError={session.saveError}
+          canUndoClear={session.canUndoClear}
           onExit={session.exit}
           onHoverItem={session.hoverItem}
           onSelect={session.selectEdit}
@@ -64,6 +65,8 @@ export function App() {
           onForget={session.forgetNote}
           onReselect={session.reselect}
           onDelete={session.remove}
+          onClearAll={session.clearAll}
+          onUndoClear={session.undoClear}
           onInstruction={session.updateInstruction}
         />
       ) : (

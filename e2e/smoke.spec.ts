@@ -7,7 +7,7 @@ const fixture = readFileSync(path.resolve('fixtures/review.html'));
 
 async function serveFixture(): Promise<{ url: string; close: () => Promise<void> }> {
   const server: Server = createServer((request, response) => {
-    if (request.url !== '/') {
+    if (request.url !== '/' && request.url !== '/other') {
       response.writeHead(404);
       response.end('missing');
       return;
@@ -87,6 +87,70 @@ test('removes an edit from the tray', async () => {
     await page.locator('[data-editui="delete-copied"]').click();
     await expect(page.locator('[data-editui="copied-note"]')).toHaveCount(0);
     await expect.poll(() => extensionStorage(context), { timeout: 5_000 }).not.toContain('Remove this copied note');
+  } finally {
+    await context.close();
+    await fixtureServer.close();
+  }
+});
+
+test('clears all notes on the current page', async () => {
+  const extensionPath = path.resolve('output/chrome-mv3');
+  const fixtureServer = await serveFixture();
+  const context = await chromium.launchPersistentContext('', {
+    headless: false,
+    args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`],
+  });
+
+  try {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    const page = context.pages()[0] ?? (await context.newPage());
+    const addNote = async (text: string) => {
+      await page.locator('#hero-heading').click();
+      await page.locator('[data-editui="prompt-input"]').fill(text);
+      await page.locator('[data-editui="prompt-input"]').press('Enter');
+    };
+    const startEditing = async () => {
+      await expect(async () => {
+        if ((await page.locator('[data-editui="editing"]').count()) === 0) await toggleEditing(context);
+        await expect(page.locator('[data-editui="editing"]')).toBeAttached();
+      }).toPass({ timeout: 15_000 });
+    };
+
+    await page.goto(`${fixtureServer.url}other`);
+    await startEditing();
+    await addNote('Note on another page');
+    await expect.poll(() => extensionStorage(context), { timeout: 5_000 }).toContain('Note on another page');
+
+    await page.goto(fixtureServer.url);
+    await startEditing();
+    await addNote('Copied note to clear');
+    await page.locator('[data-editui="copy-all"]').click();
+    await expect(page.locator('[data-editui="copied-note"]')).toHaveCount(1);
+    await addNote('Pending note to clear');
+    await expect(page.locator('[data-editui="tray"] li')).toHaveCount(2);
+
+    const rows = page.locator('[data-editui="tray"] li');
+    await page.locator('[data-editui="clear-all"]').click();
+    await expect(rows).toHaveCount(0);
+    await expect(page.locator('[data-editui="clear-all"]')).toHaveCount(0);
+    await expect(page.locator('[data-editui="undo-clear"]')).toBeVisible();
+    await expect.poll(() => extensionStorage(context), { timeout: 5_000 }).not.toContain('to clear');
+    expect(await extensionStorage(context)).toContain('Note on another page');
+
+    await page.locator('[data-editui="undo-clear"]').click();
+    await expect(rows).toHaveCount(2);
+    await expect(page.locator('[data-editui="copied-note"]')).toHaveCount(1);
+    await expect(page.locator('[data-editui="clear-all"]')).toBeVisible();
+    await expect.poll(() => extensionStorage(context), { timeout: 5_000 }).toContain('Pending note to clear');
+
+    await page.locator('[data-editui="clear-all"]').click();
+    await expect(page.locator('[data-editui="undo-clear"]')).toBeVisible();
+    await addNote('Fresh note after clearing');
+    await expect(page.locator('[data-editui="undo-clear"]')).toHaveCount(0);
+    await expect(page.locator('[data-editui="clear-all"]')).toBeVisible();
+    await expect(rows).toHaveCount(1);
+    await expect.poll(() => extensionStorage(context), { timeout: 5_000 }).not.toContain('to clear');
+    expect(await extensionStorage(context)).toContain('Note on another page');
   } finally {
     await context.close();
     await fixtureServer.close();
