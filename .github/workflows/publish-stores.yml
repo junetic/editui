@@ -24,8 +24,18 @@ permissions:
 jobs:
   publish:
     if: github.ref == 'refs/heads/main'
+    environment: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Only junetic can publish
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          if [ "$ACTOR" != "junetic" ]; then
+            echo "Publish stores can only be run by junetic. This run was started by ${ACTOR}."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
