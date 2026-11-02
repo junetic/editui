@@ -40,5 +40,5 @@ Record the Firefox version and results in the pull request. The existing Chromiu
 ## Before you open a pull request
 
 - Keep the change focused on the extension, the site, or the docs you are fixing.
-- Do not commit `.env` files, credentials, Chrome Web Store upload keys, or private customer data.
+- Do not commit `.env` files, credentials, Chrome Web Store upload keys, Add-ons JWT secrets, or private customer data. Store publish credentials belong in GitHub Actions secrets.
 - Keep the extension local-first: notes stay on the device until the user copies a prompt. Do not add an account, a remote prompt upload, or an MCP requirement for the basic workflow.
