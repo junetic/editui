@@ -72,7 +72,20 @@ pnpm dev:firefox # Launch a separate Firefox development profile with live reloa
 pnpm zip:firefox # Write the Firefox package under output/
 ```
 
-The ZIP is an unsigned build artifact, not a permanently installable release. Firefox signing and store publication are handled separately. See [CONTRIBUTING.md](CONTRIBUTING.md) for the manual Firefox test checklist.
+The ZIP is an unsigned build artifact, not a permanently installable release. See [CONTRIBUTING.md](CONTRIBUTING.md) for the manual Firefox test checklist.
+
+## Publish
+
+On `main`, run **Actions → Publish stores**. `none` publishes the `package.json` version. `patch`, `minor`, or `major` commits and tags the next version, then publishes that same version to the Chrome Web Store and Firefox Add-ons.
+
+Add these repository secrets under **Settings → Secrets and variables → Actions**:
+
+- `CHROME_CLIENT_ID`
+- `CHROME_CLIENT_SECRET`
+- `CHROME_REFRESH_TOKEN`
+- `CHROME_PUBLISHER_ID`
+- `AMO_JWT_ISSUER`
+- `AMO_JWT_SECRET`
 
 ## Marketing site
 

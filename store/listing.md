@@ -1,6 +1,6 @@
 # Chrome Web Store listing
 
-Publish the zip from `pnpm zip` (`output/editui-1.0.0-chrome.zip`). Host `store/privacy-policy.md` at a public URL and paste that URL into the privacy-policy field. The store upload itself uses your developer account.
+The **Publish stores** action on `main` packs `output/editui-<version>-chrome.zip` and `output/editui-<version>-firefox.zip` from the `package.json` version and submits both. Host `store/privacy-policy.md` at a public URL and paste that URL into the privacy-policy field. Store credentials stay in GitHub Actions secrets, listed in the README.
 
 ## Dashboard fields
 

@@ -1,0 +1,10 @@
+{
+  "slug": "editui",
+  "license": "MIT",
+  "name": { "en-US": "EditUI" },
+  "summary": {
+    "en-US": "Point at your UI, collect visual edits, and copy one prompt for Claude Code, Cursor, or any coding agent."
+  },
+  "homepage": { "en-US": "https://www.editui.app" },
+  "categories": { "firefox": ["web-development"] }
+}
