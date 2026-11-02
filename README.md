@@ -76,7 +76,7 @@ The ZIP is an unsigned build artifact, not a permanently installable release. Se
 
 ## Publish
 
-On `main`, run **Actions → Publish stores**. `none` publishes the `package.json` version. `patch`, `minor`, or `major` commits and tags the next version, then publishes that same version to the Chrome Web Store and Firefox Add-ons.
+On `main`, run **Actions → Publish stores**. `none` publishes the `package.json` version. `patch`, `minor`, or `major` tags the next version, publishes that version to the Chrome Web Store and Firefox Add-ons, and opens a pull request with the version bump. Merge that pull request so `main` matches the stores. Direct pushes to `main` are blocked.
 
 Add these repository secrets under **Settings → Secrets and variables → Actions**:
 
